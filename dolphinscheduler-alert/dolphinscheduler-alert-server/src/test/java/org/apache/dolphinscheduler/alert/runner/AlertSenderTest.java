@@ -181,7 +181,8 @@ class AlertSenderTest {
 
         AlertChannel otherAlertChannelMock = mock(AlertChannel.class);
         when(alertPluginManager.getAlertChannel(PLUGIN_DEFINE_ID + 1)).thenReturn(Optional.of(otherAlertChannelMock));
-        AlertResult alertFailedResult = AlertResult.fail(String.format("Alert Plugin %s send failed", PLUGIN_INSTANCE_NAME));
+        AlertResult alertFailedResult =
+                AlertResult.fail(String.format("Alert Plugin %s send failed", PLUGIN_INSTANCE_NAME));
         when(otherAlertChannelMock.process(Mockito.any())).thenReturn(alertFailedResult);
         alertSender.sendEvent(alert);
         verify(alertDao).updateAlert(eq(AlertStatus.EXECUTION_FAILURE), anyString(), anyInt());
@@ -192,7 +193,6 @@ class AlertSenderTest {
         alertInstanceList.add(otherAlertPluginInstance);
         alertSender.sendEvent(alert);
         verify(alertDao).updateAlert(eq(AlertStatus.EXECUTION_PARTIAL_SUCCESS), anyString(), anyInt());
-
 
     }
 
